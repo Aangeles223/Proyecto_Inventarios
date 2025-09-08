@@ -1,33 +1,59 @@
 
-import { AuthContextProvider, MyRoutes, Light, Dark, Sidebar } from "./index";
+import { AuthContextProvider, MyRoutes, Light, Dark, Sidebar, MenuHambur } from "./index";
+import { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
-import { createContext, useState } from "react";
+import { createContext } from "react";
 import { Device } from "./styles/breackpoints";
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
+
 
 export const ThemeContext = createContext(null);
+
+function useResponsive() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isTablet, setIsTablet] = useState(window.innerWidth >= 768 && window.innerWidth < 1024);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return { isMobile, isTablet, isDesktop };
+}
 
 function App() {
   const [themeuse, setTheme] = useState("dark");
   const theme = themeuse === "light" ? "light" : "dark";
   const themeStyle = theme === "light" ? Light : Dark;
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { isMobile, isTablet, isDesktop } = useResponsive();
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <ThemeProvider theme={themeStyle}>
         <AuthContextProvider>
           <Container className={sidebarOpen ? "active" : ""}>
-            <section className="ContentSidebar">
-              <Sidebar state={sidebarOpen} setState={()=>setSidebarOpen(!sidebarOpen)}/>
-            </section>
-            <section className="ContentMenuhambur">
-              Menu amburguesa
-            </section>
+            {(isDesktop || isTablet) && (
+              <section className="ContentSidebar">
+                <Sidebar state={sidebarOpen} setState={() => setSidebarOpen(!sidebarOpen)} />
+              </section>
+            )}
+            {isMobile && (
+              <section className="ContentMenuhambur">
+                <MenuHambur />
+              </section>
+            )}
             <section className="ContentRoutes">
-              {/* Aquí puedes renderizar rutas o contenido dinámico */}
+              <MyRoutes />
             </section>
-            <MyRoutes />
           </Container>
+          <ReactQueryDevtools initialIsOpen={false} />
         </AuthContextProvider>
       </ThemeProvider>
     </ThemeContext.Provider>

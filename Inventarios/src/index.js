@@ -1,6 +1,13 @@
+export * from "./components/templates/LoginTemplate.jsx";
+export * from "./store/AuthStore.jsx";
+export * from "./hooks/ProtectedRoute.jsx";
+export * from "./pages/PagesBase.jsx";
+export * from "./pages/Login.jsx";
+export * from "./supabase/crudUsuarios.jsx";
+export * from "./store/UsuariosStore.jsx";
+export * from "./components/organismos/Menuhambur.jsx";
 export * from "./components/atomos/Icono.jsx";
 export * from "./components/moleculas/Btnsave.jsx";
-export * from "./components/organismos/Sidebar/ToggleTema.jsx";
 export { default as App } from "./App.jsx";
 export * from "./context/AuthContext.jsx";
 export * from "./pages/Home.jsx";
@@ -13,4 +20,5 @@ export * from "./utils/dataEstatica.jsx";
 export * from "./components/templates/HomeTemplate.jsx";
 export * from "./components/organismos/Sidebar/Sidebar.jsx";
 export * from "./components/organismos/Sidebar/SidebarCard.jsx";
+export * from "./components/organismos/ToggleTema.jsx";
 // Si agregas nuevos archivos .js/.jsx relevantes, agrégalos aquí para centralizar los imports.

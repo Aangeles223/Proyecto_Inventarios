@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { v, Btnsave,  } from "../../../index";
+import { v, Btnsave, useAuthStore } from "../../../index";
 export function SidebarCard() {
   
   return (
