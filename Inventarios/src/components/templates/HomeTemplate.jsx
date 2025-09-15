@@ -1,63 +1,63 @@
 import styled from "styled-components";
-import { useAuthStore } from "../../store/AuthStore";
-import { Btnsave, Header } from "../../index";
-import { useState } from "react";
+import { BannerArea, Header, Title, useAreasStore } from "../../index";
+import { useState, useEffect } from "react";
+import { UserAuth } from "../../context/AuthContext";
 export function HomeTemplate() {
-    const [state, setState] = useState(false);
-    return (
-        <Container>
-            <header className='header'>
-                <Header 
-                    stateConfig={{state: state, setState: () => setState
-                    (!state)}}
-                />
-            </header>
-            <section className="area1">
+  const [state, setState] = useState(false);
+  const { user, loading } = UserAuth();
+  const { mostrarAreas } = useAreasStore();
 
-            </section>
-            <section className="area2">
+  useEffect(() => {
+    if (!loading && user) {
+      mostrarAreas({ idusuario: user.id });
+    }
+  }, [loading, user, mostrarAreas]);
 
-            </section>
-            <section className="main">
-
-            </section>
-        </Container>
-    );
+  return (
+    <Container>
+      <header className="header">
+        <Header
+          stateConfig={{ state: state, setState: () => setState(!state) }}
+        />
+      </header>
+      <section className="area1">
+        <Title>Tu area</Title>
+      </section>
+      <section className="main">
+        <BannerArea/>
+      </section>
+    </Container>
+  );
 }
 const Container = styled.div`
-height: 100vh;
-background-color: ${({ theme }) => theme.bgtotal};
-color: ${({ theme }) => theme.text};
-width: 100%;
-display: grid;
-padding:15px;
-grid-template-areas:
-    "header"
-    "area1"
-    "area2"
-    "main";
-grid-template-rows: 100px 100px 100px auto;
-.header{
+ position: relative;
+ overflow:hidden;
+  height: 100vh;
+  width: 100%;
+  background-color: ${(props) => props.theme.bgtotal};
+  color: ${({ theme }) => theme.text};
+  display: grid;
+  padding: 15px;
+  grid-template:
+    "header" 100px
+    "area1" 100px
+    "main" auto;
+  .header {
     grid-area: header;
-    background-color: rgba(103, 93, 241, 0.14);
+    /* background-color: rgba(103, 93, 241, 0.14); */
     display: flex;
     align-items: center;
-}
-.area1{
+  }
+  .area1 {
     grid-area: area1;
-    background-color: rgba(46, 43, 90, 0.14);
+    /* background-color: rgba(229, 67, 26, 0.14); */
     display: flex;
     align-items: center;
-}
-.area2{
-    grid-area: area2;
-    background-color: rgba(98, 14, 68, 0.14);
-    display: flex;
-    align-items: center;
-
-}
-.main{
+    justify-content: end;
+  }
+  
+  .main {
     grid-area: main;
-    background-color: rgba(103, 93, 241, 0.14);
-}
+    /* background-color: rgba(179, 46, 241, 0.14); */
+  }
 `;
