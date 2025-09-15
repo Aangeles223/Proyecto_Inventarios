@@ -21,4 +21,12 @@ export * from "./components/templates/HomeTemplate.jsx";
 export * from "./components/organismos/Sidebar/Sidebar.jsx";
 export * from "./components/organismos/Sidebar/SidebarCard.jsx";
 export * from "./components/organismos/ToggleTema.jsx";
+export * from "./components/organismos/FooterLogin.jsx";
+export * from "./components/organismos/formularios/InputText.jsx";
+export * from "./components/organismos/formularios/RegistrarAdmin.jsx";
+
+export * from "./components/moleculas/BtnCircular.jsx";
+export * from "./components/organismos/Header.jsx";
+export * from "./components/organismos/ListaMenuDesplegable.jsx";
 // Si agregas nuevos archivos .js/.jsx relevantes, agrégalos aquí para centralizar los imports.
+// Actualización automática: revisa y agrega aquí cualquier nuevo componente, hook, página o utilidad que hayas creado.
