@@ -1,42 +1,32 @@
-import {createContext, useContext, useEffect, useState} from "react"
-import { supabase } from "../supabase/supabase.config.jsx"
+import { createContext,useContext,useEffect,useState } from "react";
+import {supabase} from "../index"
 const AuthContext = createContext();
-export const AuthContextProvider =({children})=>{
-    const [user, setUser] = useState(undefined); // undefined = loading, null = no user
-    const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        // Recupera el usuario actual al montar
-        supabase.auth.getUser().then(({ data: { user } }) => {
-            console.log("Usuario recuperado:", user);
-            if (user) {
-                setUser(user);
-            } else {
-                setUser(null);
-            }
-            setLoading(false);
-        });
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-            if (session?.user == null) {
-                setUser(null);
-            } else {
-                setUser(session.user);
-            }
-            setLoading(false);
-        });
-        return () => {
-            subscription.unsubscribe();
-        };
-    }, []);
 
-    return(
-        <AuthContext.Provider value={{user, loading}}>
+export  const AuthContextProvider =({children})=>{
+    const [user, setUser] = useState([]);
+    useEffect(()=>{
+        const {data:authListener} = supabase.auth.onAuthStateChange((event, session) => {
+            async (event,session)=>{
+                console.log(event, session)
+                if(session?.user==null){
+                    setUser(null)
+                }else{
+                    setUser(session?.user)
+
+                }
+            }
+          })
+          return ()=>{
+            authListener.subscription;
+          }
+
+    },[])
+    return (
+        <AuthContext.Provider value={{user}}>
             {children}
-
-
         </AuthContext.Provider>
     )
 }
-
 export const UserAuth =()=>{
-    return useContext(AuthContext);
+    return useContext(AuthContext)
 }

@@ -20,7 +20,7 @@ function App() {
   const [themeuse, setTheme] = useState("dark");
   const theme = themeuse === "light" ? "light" : "dark";
   const themeStyle = theme === "light" ? Light : Dark;
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true); // Sidebar abierto por defecto
   const { pathname } = useLocation();
   return (
     <>

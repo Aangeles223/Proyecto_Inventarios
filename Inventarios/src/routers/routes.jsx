@@ -1,38 +1,17 @@
 import { Routes, Route } from "react-router-dom";
-import {
-  ErrorMolecula,
-  Home,
-  Login,
-  ProtectedRoute,
-  SpinnerLoader,
-  UserAuth,
-  useAreasStore,
-} from "../index";
-import { MostrarUsuarios } from "../supabase/crudUsuarios";
-import { useQuery } from "@tanstack/react-query";
-
-
+import { Home } from "../index";
 export function MyRoutes() {
-  const { user } = UserAuth();
-  const {mostrarAreas} = useAreasStore()
-  const { data:datausuarios, isLoading, error } = useQuery({
-    queryKey: ["mostrar usuarios"],
-    queryFn: MostrarUsuarios,
-  });
-  const {data:dataAreas}=useQuery({queryKey:["mostrar areas"],queryFn:()=>mostrarAreas({idusaurio:idusuario}),enabled:!!datausuarios})
-
-  if (isLoading){
-    return <SpinnerLoader/>
-  }
-  if(error){
-    return <ErrorMolecula mensaje={error.message}/>
-  }
-  return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route element={<ProtectedRoute user={user} redirectTo="/login" />}>
+  return ( 
+      <Routes>
         <Route path="/" element={<Home />} />
-      </Route>
-    </Routes>
+      </Routes>
+  );
+}import { Routes, Route } from "react-router-dom";
+import { Home } from "../index";
+export function MyRoutes() {
+  return ( 
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
   );
 }
